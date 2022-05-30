@@ -187,6 +187,18 @@ def generate_images(edition, count, drop_dup=True):
         # Get list of duplicate images
         img_tb_removed = sorted(list(set(range(count)) - set(rarity_table.index)))
 
+
+        wrong_deps = []
+        cfg = {c['name']: c['dependency'] for c in CONFIG if 'dependency' in c.keys()}
+        for col, dep in cfg.items():
+            for d, c in dep.items():
+                rt_tmb = rarity_table[(rarity_table[col] != 'none') & (~rarity_table[d].isin(c))]
+                wrong_deps += rt_tmb.index.to_list()
+        rarity_table.drop(wrong_deps)
+        img_tb_removed = sorted(list(set(img_tb_removed + wrong_deps)))
+
+        print("Detected %s dependency failures..." % (len(set(wrong_deps))))
+
         # Remove duplicate images
         print("Removing %i images..." % (len(img_tb_removed)))
 

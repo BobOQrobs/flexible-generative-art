@@ -76,5 +76,6 @@ CONFIG = [
         'directory': 'Wristband',
         'required': False,
         'rarity_weights': None,
+        'dependency': {'head_gear': ['std_lord']}
     },
 ]
