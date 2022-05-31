@@ -194,7 +194,7 @@ def generate_images(edition, count, drop_dup=True):
             for d, c in dep.items():
                 rt_tmb = rarity_table[(rarity_table[col] != 'none') & (~rarity_table[d].isin(c))]
                 wrong_deps += rt_tmb.index.to_list()
-        rarity_table.drop(wrong_deps)
+        rarity_table.drop(wrong_deps, inplace=True)
         img_tb_removed = sorted(list(set(img_tb_removed + wrong_deps)))
 
         print("Detected %s dependency failures..." % (len(set(wrong_deps))))
