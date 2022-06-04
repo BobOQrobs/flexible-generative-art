@@ -72,6 +72,9 @@ def generate_single_image(filepaths, output_filename=None):
         if filepath.endswith('.png'):
             img = Image.open(os.path.join('assets', filepath))
             bg.paste(img, (0,0), img)
+        elif filepath.endswith('.PNG'):
+            img = Image.open(os.path.join('assets', filepath))
+            bg.paste(img, (0,0), img)    
     
     # Save the final image into desired location
     if output_filename is not None:
