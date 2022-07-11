@@ -189,7 +189,16 @@ def generate_images(edition, count, drop_dup=True):
     if drop_dup:
         # Get list of duplicate images
         img_tb_removed = sorted(list(set(range(count)) - set(rarity_table.index)))
+        print(rarity_table)
 
+        #fltr = (rarity_table['background'] == 'white') & (rarity_table['clothes'].isna()) & ))
+        fltr = (rarity_table['background'] == 'white') & (rarity_table['clothes'] == 'none') & (rarity_table['wristband'] == 'none')
+        fltr2 = (rarity_table['head_gear'] == 'none') & (rarity_table['held_item'] == 'nut') & (rarity_table['clothes'] == 'none')
+        print('washalaaaaaa------------ ', sum(fltr2 | fltr))
+
+        rarity_table = rarity_table[~(fltr | fltr2)]
+
+        print(rarity_table)
 
         wrong_deps = []
         cfg = {c['name']: c['dependency'] for c in CONFIG if 'dependency' in c.keys()}
@@ -227,9 +236,9 @@ def main():
     print("Assets look great! We are good to go!")
     print()
 
-    tot_comb = get_total_combinations()
-    print("You can create a total of %i distinct avatars" % (tot_comb))
-    print()
+    # tot_comb = get_total_combinations()
+    # print("You can create a total of %i distinct avatars" % (tot_comb))
+    # print()
 
     print("How many avatars would you like to create? Enter a number greater than 0: ")
     while True:

@@ -26,7 +26,7 @@ CONFIG = [
         'name': 'background',
         'directory': 'Background',
         'required': True,
-        'rarity_weights': None,
+        'rarity_weights': [1, 4],
     },
     {
         'id': 2,
