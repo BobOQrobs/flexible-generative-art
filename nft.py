@@ -187,46 +187,23 @@ def generate_images(edition, count, drop_dup=True):
     print("Generated %i images, %i are distinct" % (count, rarity_table.shape[0]))
     
     if drop_dup:
-        # Get list of duplicate images
-        img_tb_removed = sorted(list(set(range(count)) - set(rarity_table.index)))
         
+        fltr = (rarity_table['eyes'] == 'EYE-LASER') & \
+               ((rarity_table['accessories'].isin('ROBOTOP RED', 'MONOCLE', 'NIGHT VISION')) | \
+               (rarity_table['hair'].isin('LUKE SKY', 'KOMEN RAIDER')))
 
-        #fltr = (rarity_table['background'] == 'white') & (rarity_table['clothes'].isna()) & ))
-        
-        fltr = (rarity_table['eyes'] == 'EYE-LASER') & (rarity_table['accessories'] == 'ROBOTOP RED')
-        fltr1 = (rarity_table['eyes'] == 'EYE-LASER') & (rarity_table['accessories'] == 'MONOCLE')
-        fltr2 = (rarity_table['eyes'] == 'EYE-LASER') & (rarity_table['accessories'] == 'NIGHT VISION')
-        fltr3 = (rarity_table['eyes'] == 'EYE-LASER') & (rarity_table['hair'] == 'KOMEN RAIDER')
-        fltr4 = (rarity_table['eyes'] == 'EYE-LASER') & (rarity_table['hair'] == 'LUKE SKY')
-        fltr5 = (rarity_table['hair'] == 'JAMES ROCKET') & (rarity_table['ear'] == 'DOUBLE EARRING')
-        fltr6 = (rarity_table['hair'] == 'JAMES ROCKET') & (rarity_table['ear'] == 'INTERWINED EARRING')
-        fltr7 = (rarity_table['hair'] == 'JAMES ROCKET') & (rarity_table['ear'] == 'EARPHONE')
-        fltr8 = (rarity_table['hair'] == 'KOMEN RAIDER') & (rarity_table['ear'] == 'DOUBLE EARRING')
-        fltr9 = (rarity_table['hair'] == 'KOMEN RAIDER') & (rarity_table['ear'] == 'INTERWINED EARRING')
-        fltr10 = (rarity_table['hair'] == 'KOMEN RAIDER') & (rarity_table['ear'] == 'EARPHONE')
-        fltr11 = (rarity_table['hair'] == 'LUKE SKY') & (rarity_table['ear'] == 'DOUBLE EARRING')
-        fltr12 = (rarity_table['hair'] == 'LUKE SKY') & (rarity_table['ear'] == 'INTERWINED EARRING')
-        fltr13 = (rarity_table['hair'] == 'LUKE SKY') & (rarity_table['ear'] == 'EARPHONE')
+        fltr2 = (rarity_table['hair'].isin('JAMES ROCKET', 'KOMEN RAIDER', 'LUKE SKY')) & \
+                (rarity_table['ear'].isin('DOUBLE EARRING', 'INTERWINED EARRING', 'EARPHONE'))
 
-        fltr14 = (rarity_table['hair'] == 'KOMEN RIDER') & (rarity_table['accessories'] == 'ROBOTOP RED')
-        fltr15 = (rarity_table['hair'] == 'KOMEN RIDER') & (rarity_table['accessories'] == 'MONOCLE')
-        fltr16 = (rarity_table['hair'] == 'KOMEN RIDER') & (rarity_table['accessories'] == 'NIGHT VISION')
-        
-        fltr17 = (rarity_table['hair'] == 'LUKE SKY') & (rarity_table['accessories'] == 'ROBOTOP RED')
-        fltr18 = (rarity_table['hair'] == 'LUKE SKY') & (rarity_table['accessories'] == 'MONOCLE')
-        fltr19 = (rarity_table['hair'] == 'LUKE SKY') & (rarity_table['accessories'] == 'NIGHT VISION')
-
-        
-
-  
-
+        fltr3 = (rarity_table['hair'].isin('LUKE SKY', 'KOMEN RIDER')) & \
+                 (rarity_table['accessories'].isin('ROBOTOP RED', 'MONOCLE', 'NIGHT VISION'))
 
         #print('EYE-LASER -> ELIMINATED------------ ', sum(fltr2 | fltr))
-        rarity_table = rarity_table[~(fltr | fltr1 | fltr2 | fltr3 | fltr4 | fltr5 | fltr6 | fltr7 | fltr8 | fltr9 | fltr10 | fltr11 | fltr12 | fltr13 | fltr14 | fltr15 | fltr16 | fltr17 | fltr18 | fltr19)]
-
-        #rarity_table = rarity_table[~(fltr)]
-
+        rarity_table = rarity_table[~(fltr | fltr2 | fltr3)]
         
+        # Get list of duplicate images and evaluations
+        img_tb_removed = sorted(list(set(range(count)) - set(rarity_table.index)))
+
         wrong_deps = []
         cfg = {c['name']: c['dependency'] for c in CONFIG if 'dependency' in c.keys()}
         for col, dep in cfg.items():
