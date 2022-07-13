@@ -189,14 +189,14 @@ def generate_images(edition, count, drop_dup=True):
     if drop_dup:
         
         fltr = (rarity_table['eyes'] == 'EYE-LASER') & \
-               ((rarity_table['accessories'].isin('ROBOTOP RED', 'MONOCLE', 'NIGHT VISION')) | \
-               (rarity_table['hair'].isin('LUKE SKY', 'KOMEN RAIDER')))
+               ((rarity_table['accessories'].isin(['ROBOTOP RED', 'MONOCLE', 'NIGHT VISION'])) | \
+               (rarity_table['hair'].isin(['LUKE SKY', 'KOMEN RAIDER'])))
 
-        fltr2 = (rarity_table['hair'].isin('JAMES ROCKET', 'KOMEN RAIDER', 'LUKE SKY')) & \
-                (rarity_table['ear'].isin('DOUBLE EARRING', 'INTERWINED EARRING', 'EARPHONE'))
+        fltr2 = (rarity_table['hair'].isin(['JAMES ROCKET', 'KOMEN RAIDER', 'LUKE SKY'])) & \
+                (rarity_table['ear'].isin(['DOUBLE EARRING', 'INTERWINED EARRING', 'EARPHONE']))
 
-        fltr3 = (rarity_table['hair'].isin('LUKE SKY', 'KOMEN RIDER')) & \
-                 (rarity_table['accessories'].isin('ROBOTOP RED', 'MONOCLE', 'NIGHT VISION'))
+        fltr3 = (rarity_table['hair'].isin(['LUKE SKY', 'KOMEN RIDER'])) & \
+                 (rarity_table['accessories'].isin(['ROBOTOP RED', 'MONOCLE', 'NIGHT VISION']))
 
         #print('EYE-LASER -> ELIMINATED------------ ', sum(fltr2 | fltr))
         rarity_table = rarity_table[~(fltr | fltr2 | fltr3)]
